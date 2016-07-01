@@ -256,6 +256,9 @@ public abstract class PreCallDialog
 
         receivedCallWindow.setAlwaysOnTop(true);
 
+        // register the frame so the dialog can be dragged around the screen
+        ComponentMover.registerComponent(receivedCallWindow);
+
         // prevents dialog window to get unwanted key events and when going
         // on top on linux, it steals focus and if we are accidently
         // writing something and pressing enter a call get answered
