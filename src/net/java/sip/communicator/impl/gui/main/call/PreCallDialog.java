@@ -260,7 +260,7 @@ public abstract class PreCallDialog
         ComponentMover.registerComponent(receivedCallWindow);
 
         // prevents dialog window to get unwanted key events and when going
-        // on top on linux, it steals focus and if we are accidently
+        // on top on linux, it steals focus and if we are accidentally
         // writing something and pressing enter a call get answered
         receivedCallWindow.setFocusableWindowState(false);
 
