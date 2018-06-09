@@ -251,22 +251,18 @@ public class StrideIdentityPresenceExtension
             String userAvatarUrl = null;
             String groupId = null;
 
-            try
+            do
             {
-                // Advance to end of extension, while storing information along the
-                // way
-                do
-                {
-                    parser.next();
+                parser.next();
 
-                    if (parser.getEventType() == XmlPullParser.START_TAG)
+                if (parser.getEventType() == XmlPullParser.START_TAG)
+                {
+                    currentTag = parser.getName();
+                }
+                else if(parser.getEventType() == XmlPullParser.TEXT)
+                {
+                    switch (currentTag)
                     {
-                        currentTag = parser.getName();
-                    }
-                    else if(parser.getEventType() == XmlPullParser.TEXT)
-                    {
-                        switch (currentTag)
-                        {
                         case USER_AVATAR_URL_ELEMENT_NAME:
                             userAvatarUrl = parser.getText();
                             break;
@@ -281,16 +277,14 @@ public class StrideIdentityPresenceExtension
                             break;
                         default:
                             break;
-                        }
                     }
                 }
-                while (!ELEMENT_NAME.equals(currentTag));
+                else if(parser.getEventType() == XmlPullParser.END_TAG)
+                {
+                    currentTag = parser.getName();
+                }
             }
-            catch (Exception e)
-            {
-                System.out.println("i'm tracing the stack here dude");
-                e.printStackTrace();
-            }
+            while (!ELEMENT_NAME.equals(currentTag));
 
 
             if (userAvatarUrl != null && userId != null && userName != null &&
@@ -301,8 +295,7 @@ public class StrideIdentityPresenceExtension
             }
             else
             {
-                throw new Exception("Could not correctly parse identity " +
-                    "presence");
+                return null;
             }
         }
     }
