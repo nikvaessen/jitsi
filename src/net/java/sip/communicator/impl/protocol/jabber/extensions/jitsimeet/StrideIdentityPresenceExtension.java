@@ -262,6 +262,7 @@ public class StrideIdentityPresenceExtension
                     if (parser.getEventType() == XmlPullParser.START_TAG)
                     {
                         currentTag = parser.getName();
+                        System.out.println(parser.getText());
                     }
                     else if(parser.getEventType() == XmlPullParser.TEXT)
                     {
@@ -283,6 +284,10 @@ public class StrideIdentityPresenceExtension
                             break;
                         }
                     }
+                    else if(parser.getEventType() == XmlPullParser.END_TAG)
+                    {
+                        currentTag = parser.getName();
+                    }
                 }
                 while (!ELEMENT_NAME.equals(currentTag));
             }
@@ -292,7 +297,6 @@ public class StrideIdentityPresenceExtension
                 e.printStackTrace();
             }
 
-
             if (userAvatarUrl != null && userId != null && userName != null &&
                 groupId != null)
             {
@@ -301,8 +305,7 @@ public class StrideIdentityPresenceExtension
             }
             else
             {
-                throw new Exception("Could not correctly parse identity " +
-                    "presence");
+                return null;
             }
         }
     }
